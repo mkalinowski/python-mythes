@@ -1,5 +1,9 @@
 typedef struct MyThes MyThes;
-typedef struct mentry mentry;
+typedef struct mentry {
+    char* defn;
+    int count;
+    char** psyns;
+} mentry;
 
 MyThes* MyThes_new(const char* idxpath, const char* datpath);
 
