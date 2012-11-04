@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from ctypes import byref, cdll, c_char_p, c_int, POINTER, Structure
 import sys
@@ -38,8 +38,6 @@ class MyThes(object):
         return fun(self.obj).decode('latin1')
 
     def lookup(self, text):
-        if isinstance(text, str):
-            text = text.encode('utf-8', 'surrogateescape')
 
         # mentry pointer. initialized to NULL
         mentry_p = POINTER(self.mentry)() 
@@ -62,10 +60,10 @@ if __name__ == "__main__":
     idxpath = sys.argv[1]
     datpath = sys.argv[2]
 
-    text = " ".join(sys.argv[3:]).encode('utf-8', 'surrogateescape')
-
     thesaurus = MyThes(idxpath, datpath)
     encoding = thesaurus.get_th_encoding()
+
+    text = " ".join(sys.argv[3:]).encode(encoding)
 
     synonyms = thesaurus.lookup(text)
 
