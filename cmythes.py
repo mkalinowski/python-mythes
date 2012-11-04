@@ -40,7 +40,7 @@ class MyThes(object):
     def lookup(self, text):
 
         # mentry pointer. initialized to NULL
-        mentry_p = POINTER(self.mentry)() 
+        mentry_p = POINTER(self.mentry)()
 
         mentries = []
         count = self.lib.MyThes_Lookup(self.obj, c_char_p(text),
@@ -54,7 +54,8 @@ class MyThes(object):
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
-        print("Usage: " + sys.argv[0] + " <idx file path> <dat file path> <phrase>")
+        print("Usage: " + sys.argv[0] +
+              " <idx file path> <dat file path> <phrase>")
         quit(-1)
 
     idxpath = sys.argv[1]
