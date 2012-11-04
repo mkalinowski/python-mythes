@@ -5,6 +5,10 @@ import sys
 
 
 class MyThes(object):
+    """
+    MyThes provides an API to libmythes thesaurus.
+    """
+
 
     lib = cdll.LoadLibrary('./libcmythes.so')
 
@@ -16,10 +20,13 @@ class MyThes(object):
 
         def to_dict(self):
             return {'defn': self.defn,
-                    'count': self.count,
                     'syns': [self.phyns[i] for i in range(self.count)]}
 
     def __init__(self, idxpath, datpath):
+        """
+        idxpath - Thesaurus index, i.e. /usr/share/mythes/th_en_US_v2.idx
+        datpath - Thesaurus path, i.e. /usr/share/mythes/th_en_US_v2.dat
+        """
 
         # C functions require ASCII, but Python 3 strings are UTF-8
         if isinstance(idxpath, str):
@@ -33,11 +40,24 @@ class MyThes(object):
         self.lib.MyThes_del(self.obj)
 
     def get_th_encoding(self):
+        """
+        Returns thesaurus encoding. Use this to encode parameters and decode
+        return values
+        """
         fun = self.lib.MyThes_get_th_encoding
         fun.restype = c_char_p
-        return fun(self.obj).decode('latin1')
+        encoding = fun(self.obj)
+        return encoding.decode('latin1') if encoding else None
 
     def lookup(self, text):
+        """
+        Query text should be encoded with encoding returned by
+        the `get_th_encoding`.
+        Method returns the list of synonyms groupped by the sense. Each synonym
+        is a dict with keys:
+        defn - sense
+        phyns - list of synonyms
+        """
 
         # mentry pointer. initialized to NULL
         mentry_p = POINTER(self.mentry)()
@@ -63,6 +83,9 @@ if __name__ == "__main__":
 
     thesaurus = MyThes(idxpath, datpath)
     encoding = thesaurus.get_th_encoding()
+    if not encoding:
+        print("Failed to initialize Thesaurus.")
+        quit(-1)
 
     text = " ".join(sys.argv[3:]).encode(encoding)
 
