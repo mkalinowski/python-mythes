@@ -15,6 +15,7 @@ cmythes.py looks for libcmythes.so you've just created in LD_LIBRARY_PATH, so yo
 
 To use thesaurus comfortably from command line, move libcmythes.co and
 cmythes.py to /usr/local/lib and create the helper in /usr/local/bin:
+    
     # cat /usr/local/bin/thesaurus
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/bin /usr/local/lib/cmythes.py /usr/share/mythes/th_en_US_v2.idx /usr/share/mythes/th_en_US_v2.dat $*
     # thesaurus moving picture
