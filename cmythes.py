@@ -55,12 +55,14 @@ class MyThes(object):
         return mentries
 
 if __name__ == "__main__":
-    # TODO extract to args
-    idxpath = "/usr/share/mythes/th_en_US_v2.idx"
-    datpath = "/usr/share/mythes/th_en_US_v2.dat"
+    if len(sys.argv) < 4:
+        print("Usage: " + sys.argv[0] + " <idx file path> <dat file path> <phrase>")
+        quit(-1)
 
-    # TODO join all args
-    text = sys.argv[1].encode('utf-8', 'surrogateescape')
+    idxpath = sys.argv[1]
+    datpath = sys.argv[2]
+
+    text = " ".join(sys.argv[3:]).encode('utf-8', 'surrogateescape')
 
     thesaurus = MyThes(idxpath, datpath)
     encoding = thesaurus.get_th_encoding()
