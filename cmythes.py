@@ -14,6 +14,11 @@ class MyThes(object):
                     ('count', c_int),
                     ('phyns', POINTER(c_char_p))]
 
+        def to_dict(self):
+            return {'defn': self.defn,
+                    'count': self.count,
+                    'syns': [self.phyns[i] for i in range(self.count)]}
+
     def __init__(self, idxpath, datpath):
 
         # C functions require ASCII, but Python 3 strings are UTF-8
@@ -44,15 +49,26 @@ class MyThes(object):
                                        c_int(len(text)), byref(mentry_p))
         for i in range(count):
             mentry = mentry_p[i]
-            print(mentry.defn)
+            mentries.append(mentry.to_dict())
 
         self.lib.MyThes_CleanUpAfterLookup(self.obj, byref(mentry_p), count)
         return mentries
 
 if __name__ == "__main__":
+    # TODO extract to args
     idxpath = "/usr/share/mythes/th_en_US_v2.idx"
     datpath = "/usr/share/mythes/th_en_US_v2.dat"
 
+    # TODO join all args
+    text = sys.argv[1].encode('utf-8', 'surrogateescape')
+
     thesaurus = MyThes(idxpath, datpath)
     encoding = thesaurus.get_th_encoding()
-    thesaurus.lookup("accost")
+
+    synonyms = thesaurus.lookup(text)
+
+    for i, synonym in enumerate(synonyms):
+        print("%d. %s" % (i + 1, synonym['defn'].decode(encoding)))
+
+        for w in map(lambda x: x.decode(encoding), synonym['syns'][1:]):
+            print("\t%s" % w)
