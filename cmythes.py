@@ -9,8 +9,7 @@ class MyThes(object):
     MyThes provides an API to libmythes thesaurus.
     """
 
-
-    lib = cdll.LoadLibrary('./libcmythes.so')
+    lib = cdll.LoadLibrary('libcmythes.so')
 
     class mentry(Structure):
         # memory representation of a transparent lib struct
