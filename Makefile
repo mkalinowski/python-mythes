@@ -13,4 +13,4 @@ thesaurus:
 	$(CC) --std=c99 -lcmythes -L. -o thesaurus thesaurus.c
 
 clean:
-	rm *.o *.so
+	rm -f *.o *.so
