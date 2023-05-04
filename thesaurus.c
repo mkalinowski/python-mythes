@@ -20,9 +20,9 @@ void lookup(const char *searchString)
 {
     // TODO: extract following dirs
     const char *datpath = "/usr/share/mythes/th_en_US_v2.dat";
-	const char *idxpath = "/usr/share/mythes/th_en_US_v2.idx";
+    const char *idxpath = "/usr/share/mythes/th_en_US_v2.idx";
 
-	MyThes *thesaurus = MyThes_new(idxpath, datpath);
+    MyThes *thesaurus = MyThes_new(idxpath, datpath);
 
     int len = strlen(searchString);
     int nentries = 0;
