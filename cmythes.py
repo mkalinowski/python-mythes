@@ -52,7 +52,7 @@ class MyThes(object):
         """
         Query text should be encoded with encoding returned by
         the `get_th_encoding`.
-        Method returns the list of synonyms groupped by the sense. Each synonym
+        Method returns the list of synonyms grouped by the sense. Each synonym
         is a dict with keys:
         defn - sense
         phyns - list of synonyms
